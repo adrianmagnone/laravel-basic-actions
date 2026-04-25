@@ -128,4 +128,23 @@ class FilterBase
             $query->whereRaw("{$field} <= ?", [$hasta]);
         }
     }
+
+    protected static function getSqlData($sql, $field)
+    {
+        $results = \Illuminate\Support\Facades\DB::select($sql);
+
+        if ($results)
+        {
+            return $results[0]->$field;
+        }
+        return false;
+    }
+
+    protected static function getFromTo($field, $value)
+    {
+        $d = ($value[$field.'Desde']) ? " desde " . $value[$field.'Desde'] : '' ;
+        $h = ($value[$field.'Hasta']) ? " hasta " . $value[$field.'Hasta'] : '';
+        
+        return $d . $h; 
+    }
 }
