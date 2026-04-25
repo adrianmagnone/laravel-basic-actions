@@ -1,6 +1,6 @@
 <?php
 
-namespace Aiglos\Lba\Lib\Excel;
+namespace Aiglos\Lba\Excel;
 
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -90,6 +90,21 @@ class FormatBase implements IFormat
                     'formatCode' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE
                 ]
             ],
+            'decimal' => [
+                 'numberFormat' => [
+                    'formatCode' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED2
+                ]
+            ],
+            'percent' => [
+                'numberFormat' => [ 
+                    'formatCode' => NumberFormat::FORMAT_PERCENTAGE_00  
+                ]
+            ],
+            'date' => [
+                'numberFormat' => [ 
+                    'formatCode' => NumberFormat::FORMAT_DATE_DDMMYYYY  
+                ]
+            ]
         ];
 
         if (array_key_exists($tipo, $formats))

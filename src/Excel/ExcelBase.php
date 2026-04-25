@@ -1,9 +1,9 @@
 <?php
 
-namespace Aiglos\Lba\Lib\Excel;
+namespace Aiglos\Lba\Excel;
 
-use Aiglos\Lba\Lib\Excel\IFormat;
-use Aiglos\Lba\Lib\Excel\FormatBase;
+use Aiglos\Lba\Excel\IFormat;
+use Aiglos\Lba\Excel\FormatBase;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -255,14 +255,16 @@ class ExcelBase
 						$this->excelActiveSheet
 							->setCellValue("{$letter}{$this->fila}", $value);
 
-						$this->applyFormatToCell("{$letter}{$this->fila}", $key);
-
 						if ($this->headers[$key]['format'])
 						{
 							$this->applyCellFormat(
 								$this->excelActiveSheet->getStyle("{$letter}{$this->fila}"),
 								$this->headers[$key]['format']
 							);
+						}
+						else
+						{
+							$this->applyCustomFormatToCell("{$letter}{$this->fila}", $key);
 						}
 					}
 				}
@@ -329,32 +331,13 @@ class ExcelBase
 	}
 
 
-	protected function applyFormatToCell($celda, $key)
+	protected function applyCustomFormatToCell($celda, $key)
 	{
-		if (! $this->headers[$key]['format'])
-			return;
-
 		$celdaStyle = $this->excel
 						->getActiveSheet()
 						->getStyle($celda);
 
 		switch ($this->headers[$key]['format']) {
-			case 'money':
-				$celdaStyle
-					->getNumberFormat()
-    				->setFormatCode(
-        				NumberFormat::FORMAT_CURRENCY_USD_SIMPLE
-    				);
-				break;
-
-			case 'date':
-				$celdaStyle
-					->getNumberFormat()
-					->setFormatCode(
-						NumberFormat::FORMAT_DATE_DDMMYYYY						
-					);
-				break;
-
 			default:
 				break;
 		}
@@ -462,10 +445,24 @@ class ExcelBase
 		$objWriter->save('php://output');
 	}
 
+	/**
+	 * Converts a date string to an Excel-compatible date value.
+	 *
+	 * This method takes a date string in any format recognized by PHP's DateTime class,
+	 * converts it to a DateTime object, and then transforms it into an Excel serial number
+	 * that can be used in spreadsheet cells.
+	 *
+	 * @param string $fecha The date string to convert (e.g., '2026-04-25', '25/04/2026')
+	 * @return float The Excel date serial number representing the input date
+	 *
+	 * @example
+	 * $excelDate = ExcelBase::toDate('2026-04-25');  // Returns Excel serial number for April 25, 2026
+	 * $sheet->setCellValue('A1', $excelDate);
+	 */
 	public static function toDate($fecha)
 	{
-		$date = \App\Helpers\DateHelper::object($fecha);
-		$time = \gmmktime($date->hour, $date->minute, $date->second, $date->month, $date->day, $date->year);
+		$date = new \Datetime($fecha);
+		$time = \gmmktime($date->format('H'), $date->format('i'), $date->format('s'), $date->format('m'), $date->format('d'), $date->format('Y'));
 		return \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($time);
 	}
 }

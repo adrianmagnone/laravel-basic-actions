@@ -1,6 +1,6 @@
 <?php
 
-namespace Aiglos\Lba\Lib\Excel;
+namespace Aiglos\Lba\Excel;
 
 interface IFormat
 {
