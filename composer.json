@@ -1,0 +1,53 @@
+{
+    "name": "aiglos/lba",
+    "description": "Basic Actions for Laravel",
+    "keywords": [
+        "laravel",
+        "actions"
+    ],
+    "type": "package",
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "phpoffice/phpspreadsheet": "^1.28",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6",
+        "phpunit/phpunit": "^10.0",
+        "orchestra/testbench": "^8.0"
+    },
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/adrianmagnone/laravel-basic-actions/issues",
+        "source": "https://github.com/adrianmagnone/laravel-basic-actions"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aiglos\\Lba\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aiglos\\Lba\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Aiglos\\Lba\\LbaServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Adrian Magnone",
+            "email": "adrianvmagnone@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": false
+}
