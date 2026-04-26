@@ -47,8 +47,15 @@ class ExcelBase
 
 		if ($format)
 			$this->format = $format;
-		else
-			$this->format = new FormatBase();
+		else 
+		{
+			$formatClass = config('lba.exportar.clase_formato');
+			if (! class_exists($formatClass))
+				throw new \Exception("La clase de formato {$formatClass} no existe");
+
+			$this->format = new $formatClass();
+		}
+			
 	}
 
 	public function setHeaders($headers)
