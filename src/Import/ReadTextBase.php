@@ -8,7 +8,7 @@ trait ReadTextBase
 
     public function readFile($filename)
     {
-        $filePath = storage_path('app/' . $filename);
+        $filePath = \Storage::path($filename);
 
         $this->textData = \fopen($filePath, 'r');
     }

@@ -9,7 +9,8 @@ trait ReadExcelBase
 
     public function readFile($filename)
     {
-        $this->excel = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path('app/'. $filename));
+        $filePath = \Storage::path($filename);
+        $this->excel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
 
         $this->sheetData = $this->excel->getActiveSheet()->toArray(null, true, true, true);
     }

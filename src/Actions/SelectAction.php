@@ -311,8 +311,15 @@ class SelectAction
         $this->executeQuery($query);
     }
 
+    protected function beforeExecuteQuery(&$query)
+    {
+        return false;
+    }
+
     protected function executeQuery(&$query)
     {
+        $this->beforeExecuteQuery($query);
+
         if ((int)config('lba.querylog'))
         {
             \DB::enableQueryLog();
@@ -325,6 +332,13 @@ class SelectAction
         {
             $this->queryData = $query->get();
         }
+
+        $this->afterExecuteQuery();
+    }
+
+    protected function afterExecuteQuery()
+    {
+        return false;
     }
 
     protected function createListOptions()

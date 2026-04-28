@@ -36,6 +36,9 @@ class EditAction
 
         $entidad = $this->_createModel();
 
+        if (! $this->checkPermission($entidad)) 
+            abort(403);
+
         $data = $this->aditionalDataForEdit($entidad);
         $data['layout']    = 'layouts.form';
         $data['action']    = $this->currentAction;
@@ -52,6 +55,9 @@ class EditAction
     {
         $this->currentAction = self::EDITANDO;
         $entidad = $this->model::findOrFail($id);
+
+        if (! $this->checkPermission($entidad)) 
+            abort(403);
 
         if ($request)
             $this->request =& $request;
@@ -75,6 +81,9 @@ class EditAction
         $this->currentAction = self::ELIMINANDO;
         $entidad = $this->model::findOrFail($id);
 
+        if (! $this->checkPermission($entidad)) 
+            abort(403);
+
         if ($request)
             $this->request =& $request;
 
@@ -97,6 +106,9 @@ class EditAction
         $this->currentAction = self::CONSULTANDO;
         $entidad = $this->model::findOrFail($id);
 
+        if (! $this->checkPermission($entidad)) 
+            abort(403);
+
         $data = $this->aditionalDataForEdit($entidad);
         $data['layout']    = 'layouts.noform';
         $data['action']    = $this->currentAction;
@@ -106,6 +118,11 @@ class EditAction
             $data['pageTittle']= 'Consultar ' . $this->readModelName($entidad);
 
         return view($this->editView, $data);
+    }
+
+    protected function checkPermission(&$entidad)
+    {
+        return true;
     }
 
     protected function readModelName(&$entidad)
@@ -287,8 +304,11 @@ class EditAction
         {
             $this->beforeUpdate($entidad, $record);
 
-            $entidad->fill( $record );
-            $entidad->save();
+            if ($record)
+            {
+                $entidad->fill( $record );
+                $entidad->save();
+            }
 
             $this->completeUpdate($entidad, $this->request);
 

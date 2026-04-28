@@ -54,7 +54,7 @@ trait AccessRequest
         $value = $this->request->{$name};
         
         return ($value)
-                ? MiDate::fromFormatTo('d/m/Y', $value, 'Y-m-d')
+                ? date_from_format_to($value, 'd/m/Y', 'Y-m-d')
                 : null;
     }
 
@@ -63,7 +63,7 @@ trait AccessRequest
         $value = $this->request->{$name};
         
         return ($value)
-                ? MiDate::fromFormatTo('d/m/Y H:i', $value, 'Y-m-d H:i:s')
+                ? date_from_format_to($value, 'd/m/Y H:i', 'Y-m-d H:i:s')
                 : null;
     }   
 }

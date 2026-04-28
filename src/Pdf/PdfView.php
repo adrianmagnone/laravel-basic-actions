@@ -66,7 +66,7 @@ class PdfView
 	{
         $data = $this->aditionalData();
         $data['titulo'] = $this->titulo;
-        $data['hoy']    = Midate::today('d/m/Y');
+        $data['hoy']    = today_formated('d/m/Y');
 
         $pdf = PDF::loadView($this->view, $data)->setPaper($this->papel[$this->indexPapel], $this->orientacion[$this->indexOri]);
 

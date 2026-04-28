@@ -10,7 +10,7 @@ trait ReadCsvBase
 
     public function readFile($filename)
     {
-        $filePath = storage_path('app/' . $filename);
+        $filePath = \Storage::path($filename);
 
         $this->csvData = \fopen($filePath, 'r');
     }

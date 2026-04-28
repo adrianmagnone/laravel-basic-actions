@@ -67,7 +67,7 @@ class PdfList
 	{
         $pdf = PDF::loadView($this->view, [
             'titulo'     => $this->titulo,
-            'hoy'        => Midate::today('d/m/Y'),
+            'hoy'        => today_formated('d/m/Y'),
             'headers'    => $this->headers,
             'data'       => $this->data,
             'subtitulos' => $this->subtitulos
@@ -76,14 +76,6 @@ class PdfList
         //return $pdf->stream();   
 
         return $pdf->download($this->filename . '.pdf');   
-
-        // return view($this->view, [
-        //     'titulo'     => $this->titulo,
-        //     'hoy'        => Midate::today('d/m/Y'),
-        //     'headers'    => $this->headers,
-        //     'data'       => $this->data,
-        //     'subtitulos' => $this->subtitulos
-        // ]);
     }
 
 }

@@ -76,10 +76,10 @@ class FilterBase
     protected function filtroBetweenDate(&$query, $desde, $hasta, $field)
     {
         $desde = ($desde)
-            ? MiDate::fromFormatTo('d/m/Y', $desde, 'Y-m-d')
+            ? date_from_format_to($desde, 'd/m/Y', 'Y-m-d') . " 00:00:00"
             : "";
         $hasta = ($hasta)
-            ? MiDate::fromFormatTo('d/m/Y', $hasta, 'Y-m-d')
+            ? date_from_format_to($hasta, 'd/m/Y', 'Y-m-d') . " 23:59:59"
             : "";
 
         $this->filtroBetween($query, $desde, $hasta, $field);
@@ -146,5 +146,10 @@ class FilterBase
         $h = ($value[$field.'Hasta']) ? " hasta " . $value[$field.'Hasta'] : '';
         
         return $d . $h; 
+    }
+
+    protected static function getPeriod($value)
+    {
+        return \ucfirst(date_from_format_to($value, 'd/m/Y', 'MMMM YYYY'));
     }
 }
