@@ -1,6 +1,6 @@
 <?php
 
-namespace Aiglos\Lba\Lib\Pdf;
+namespace Aiglos\Lba\Pdf;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 

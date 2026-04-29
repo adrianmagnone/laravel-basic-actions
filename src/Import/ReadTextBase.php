@@ -1,6 +1,6 @@
 <?php
 
-namespace Aiglos\Lba\Lib\Import;
+namespace Aiglos\Lba\Import;
 
 trait ReadTextBase
 {
