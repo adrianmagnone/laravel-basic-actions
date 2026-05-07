@@ -8,6 +8,8 @@ use Aiglos\Lba\Excel\FormatBase;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+use PhpOffice\PhpSpreadsheet\Worksheet\Table;
+
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
@@ -53,7 +55,7 @@ class ExcelBase
 			if (! class_exists($formatClass))
 				throw new \Exception("La clase de formato {$formatClass} no existe");
 
-			$this->format = new $formatClass();
+			$this->format = $formatClass;
 		}
 			
 	}
@@ -176,7 +178,7 @@ class ExcelBase
 			$this->excelActiveSheet
 		    	->setCellValue('A1', $this->titulo)
 		    	->getStyle('A1')
-				->applyFromArray( $this->format->h1Style() );
+				->applyFromArray( $this->format::h1Style() );
 
 		    $this->fila++;
 		}
@@ -188,7 +190,7 @@ class ExcelBase
 				$this->excelActiveSheet
 					->setCellValue("A{$this->fila}", $value)
 					->getStyle("A{$this->fila}")
-					->applyFromArray( $this->format->h2Style() );
+					->applyFromArray( $this->format::h2Style() );
 				$this->fila++;
 			}
 			// Dejamos un renglon en blanco para que no se junte los titulos con el encabezado
@@ -209,10 +211,12 @@ class ExcelBase
 
 			$rango = $this->rangeCompleteRow();
 
-			$this->excelActiveSheet
-				->getStyle($rango)
-				->applyFromArray( $this->format->headerStyle() );
-
+			if ($this->format::headerStyle())
+			{
+				$this->excelActiveSheet
+					->getStyle($rango)
+					->applyFromArray( $this->format::headerStyle() );
+			}
 
 			$this->fila++;
 		}
@@ -238,6 +242,7 @@ class ExcelBase
 			$this->renderRow($renglon);
 		}
 		$this->setColumnWidth();
+		$this->createTableData();
 	}
 
 	protected function renderRow($renglon)
@@ -281,12 +286,51 @@ class ExcelBase
 
 			$this->highlightRow($renglon, $rango);
 
-			$this->excelActiveSheet
-				->getStyle($rango)
-				->applyFromArray( $this->format->bodyStyle() );
+			if ($this->format::bodyStyle())
+			{
+				$this->excelActiveSheet
+					->getStyle($rango)
+					->applyFromArray( $this->format::bodyStyle() );
+			}
 
 			$this->fila++;
 		}
+	}
+
+	protected function createTableData()
+	{
+		$useTable = (int)config('lba.exportar.excelTable');
+		if (! $useTable)			
+			return;	
+
+		$tableFormats = $this->format::tableFormats();
+		if ($tableFormats)
+		{
+			$col = "A";
+			$lastColumn = end($this->headers);
+			if (is_array($lastColumn))
+				$col = $lastColumn['celda'];
+			
+			$primerFila = $this->firstRowBody - 1;
+			$ultimaFila = $this->fila - 1;
+
+			$rango = "A{$primerFila}:{$col}{$ultimaFila}";
+
+			$table = new Table($rango, 'ExcelTable');
+
+			$tableStyle = new \PhpOffice\PhpSpreadsheet\Worksheet\Table\TableStyle();
+			$tableStyle->setTheme($tableFormats['theme']); 
+			$tableStyle->setShowRowStripes($tableFormats['showRowStripes']);
+			$tableStyle->setShowFirstColumn($tableFormats['showFirstColumn']);
+			$tableStyle->setShowLastColumn($tableFormats['showLastColumn']);
+			$tableStyle->setShowColumnStripes($tableFormats['showColumnStripes']);
+
+			$table->setStyle($tableStyle);
+
+			$this->excelActiveSheet
+					->addTable($table);	
+		}
+		
 	}
 
 	protected function renderNoData()
@@ -298,7 +342,7 @@ class ExcelBase
 
 	protected function applyCellFormat($style, $formato)
 	{
-		$formatoAplicable = $this->format->cellFormats($formato);
+		$formatoAplicable = $this->format::cellFormats($formato);
 
         if ($formatoAplicable)
         {
@@ -325,9 +369,12 @@ class ExcelBase
 			$this->excelActiveSheet
 				->mergeCells($rango);
 
-			$this->excelActiveSheet
-				->getStyle($rango)
-				->applyFromArray( $this->format->headerGroupStyle() );
+			if ($this->format::headerGroupStyle())
+			{
+				$this->excelActiveSheet
+					->getStyle($rango)
+					->applyFromArray( $this->format::headerGroupStyle() );
+			}
 
 			$this->previousGroupTittle = $renglon['groupHeader'];
 			$this->fila++;
@@ -399,9 +446,13 @@ class ExcelBase
 			}
 			$ultimaFila = $this->fila - 1;
 			$rango .= "C{$ultimaFila}";
-			$this->excelActiveSheet
-				->getStyle($rango)
-				->applyFromArray( $this->format->footerStyle() );
+
+			if ($this->format::footerStyle())
+			{
+				$this->excelActiveSheet
+					->getStyle($rango)
+					->applyFromArray( $this->format::footerStyle() );
+			}
 		}
 	}
 

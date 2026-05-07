@@ -14,10 +14,13 @@ return [
     | cookie_excel:
     | Se puede definir los valores que se usara para establecer la cookie de descarga.
     |
-    / clase_formato:
+    | clase_formato:
     | Se puede definir la clase que se usara para formatear los datos antes de
     | exportarlos a Excel. Esta clase debe implementar la interfaz \Aiglos\Lba\Excel\IFormat.
-    /
+    |
+    | excelTable:
+    | Se puede definir si se usara el formato de tabla de Excel para las datos exportados. Posibles valores: 0 o 1  
+    |  
     */
     
     'exportar' => [
@@ -31,7 +34,8 @@ return [
             'secure'   => env('DEFINE_EXCEL_COOKIE_SECURE', false),
             'httpOnly' => env('DEFINE_EXCEL_COOKIE_HTTPONLY', false)
         ],
-        'clase_formato' => env('DEFINE_CLASE_FORMATO_EXCEL', Aiglos\Lba\Excel\FormatBase::class)
+        'clase_formato' => env('DEFINE_CLASE_FORMATO_EXCEL', Aiglos\Lba\Excel\FormatBase::class),
+        'excelTable'    => env('DEFINE_EXCEL_TABLE', 1)
     ],
 
 
@@ -47,6 +51,8 @@ return [
     */
 
     'querylog' => env('DEFINE_QUERYLOG', 0),
+
+    
 
     /*
     |--------------------------------------------------------------------------
