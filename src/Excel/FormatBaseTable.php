@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Table\TableStyle;
 
-class FormatBase implements IFormat
+class FormatBaseTable implements IFormat
 {
     public static function headerStyle() : Array
     {
@@ -116,6 +116,12 @@ class FormatBase implements IFormat
 
     public static function tableFormats() : Array
     {
-        return [];
+        return [
+            'theme'             => TableStyle::TABLE_STYLE_MEDIUM2,
+            'showFirstColumn'   => false,
+            'showLastColumn'    => false,
+            'showRowStripes'    => true,
+            'showColumnStripes' => false,
+        ];
     }
 }
