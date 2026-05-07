@@ -27,6 +27,22 @@ if (! function_exists('date_from_format_to'))
         try
 		{
             return \Carbon\Carbon::createFromFormat($from, $date)
+                ->format($to);
+		}
+		catch (\Throwable $th)
+		{
+			return '';
+		}
+    }
+}
+
+if (! function_exists('date_from_format_to_name'))
+{
+    function date_from_format_to_name($date, $from, $to)
+    {
+        try
+		{
+            return \Carbon\Carbon::createFromFormat($from, $date)
                 ->locale('es')
                 ->isoFormat($to);
 		}
