@@ -4,17 +4,19 @@ namespace Aiglos\Lba\Excel;
 
 interface IFormat
 {
-    public function headerStyle() : Array;
+    public static function headerStyle() : Array;
 
-	public function h1Style() : Array;
+	public static function h1Style() : Array;
 
-	public function h2Style() : Array;
+	public static function h2Style() : Array;
 
-	public function bodyStyle() : Array;
+	public static function bodyStyle() : Array;
 
-	public function footerStyle() : Array;
+	public static function footerStyle() : Array;
 
-	public function headerGroupStyle() : Array;
+	public static function headerGroupStyle() : Array;
 
-	public function cellFormats(String $tipo) : Array;
+	public static function cellFormats(String $tipo) : Array;
+
+	public static function tableFormats() : Array;
 }
