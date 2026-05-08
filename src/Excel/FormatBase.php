@@ -88,7 +88,7 @@ class FormatBase implements IFormat
         $formats = [
             'money' => [
                 'numberFormat' => [
-                    'formatCode' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE
+                    'formatCode' => NumberFormat::FORMAT_CURRENCY_USD
                 ]
             ],
             'decimal' => [
