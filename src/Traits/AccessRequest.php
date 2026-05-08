@@ -54,7 +54,7 @@ trait AccessRequest
         $value = $this->request->{$name};
         
         return ($value)
-                ? date_from_format_to($value, 'd/m/Y', 'Y-m-d')
+                ? sql_date_formated($value)
                 : null;
     }
 

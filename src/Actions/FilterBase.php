@@ -76,10 +76,10 @@ class FilterBase
     protected function filtroBetweenDate(&$query, $desde, $hasta, $field)
     {
         $desde = ($desde)
-            ? date_from_format_to($desde, 'd/m/Y', 'Y-m-d') . " 00:00:00"
+            ? sql_date_formated($desde) . " 00:00:00"
             : "";
         $hasta = ($hasta)
-            ? date_from_format_to($hasta, 'd/m/Y', 'Y-m-d') . " 23:59:59"
+            ? sql_date_formated($hasta) . " 23:59:59"
             : "";
 
         $this->filtroBetween($query, $desde, $hasta, $field);
@@ -150,6 +150,6 @@ class FilterBase
 
     protected static function getPeriod($value)
     {
-        return \ucfirst(date_from_format_to($value, 'd/m/Y', 'MMMM YYYY'));
+        return \ucfirst(date_from_format_to_name($value, 'd/m/Y', 'MMMM YYYY'));
     }
 }
