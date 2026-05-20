@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Lib\Actions;
-
-use App\Helpers\DateHelper as MiDate;
+namespace Aiglos\Lba\Actions;
 
 class ProcessOneAction
 {
