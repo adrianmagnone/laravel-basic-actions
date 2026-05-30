@@ -89,7 +89,6 @@ class WritePdfPagesAction
         }
         catch(\Throwable $e)
         {
-            dd($e);
             throw $e;
         }
     }
@@ -103,7 +102,6 @@ class WritePdfPagesAction
 
         $archivo = \Storage::path('pdf/' . $this->archivoPie);
 
-        //$pdf = new Fpdi($this->modeloPagina['orientacion'], $this->modeloPagina['unidad'], $this->modeloPagina['tamanio']);
         $this->pdf->setSourceFile($archivo);
 
         foreach ($paginasPie as $datosPie)

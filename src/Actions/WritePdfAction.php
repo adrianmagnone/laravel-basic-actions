@@ -67,20 +67,16 @@ class WritePdfAction
 
             $pagina = 1;
 
-            // for ($pagina=1; $pagina <= $cantidadPaginas; $pagina+1)
-            // { 
-                $tppl = $this->pdf->importPage($pagina, PdfReader\PageBoundaries::MEDIA_BOX);
-                $this->pdf->AddPage();
-			    $this->pdf->useTemplate($tppl, ['adjustPageSize' => true]);
-                $this->pdf->SetMargins(0, 0, 0);
-                $this->pdf->SetAutoPageBreak(true, 0);
+            $tppl = $this->pdf->importPage($pagina, PdfReader\PageBoundaries::MEDIA_BOX);
+            $this->pdf->AddPage();
+            $this->pdf->useTemplate($tppl, ['adjustPageSize' => true]);
+            $this->pdf->SetMargins(0, 0, 0);
+            $this->pdf->SetAutoPageBreak(true, 0);
 
-                $items = $this->getItemsPorPagina($pagina);
-                $this->escribirEnDocumento($items);
+            $items = $this->getItemsPorPagina($pagina);
+            $this->escribirEnDocumento($items);
 
-                if ($this->usaArchivoPie)
-                    $this->agregarPiePagina();
-            // }
+            $this->agregarPiePagina();
 
             $this->pdf->Output($archivo_nuevo, "F");
 
@@ -88,16 +84,19 @@ class WritePdfAction
         }
         catch(\Throwable $e)
         {
-            dd($e);
             throw $e;
         }
     }
 
     protected function agregarPiePagina()
     {
+        $items = $this->getItemsPiePagina();
+
+        if (count($items) == 0)
+            return;
+
         $archivo = \Storage::path('pdf/' . $this->archivoPie);
 
-        //$pdf = new Fpdi($this->modeloPagina['orientacion'], $this->modeloPagina['unidad'], $this->modeloPagina['tamanio']);
         $this->pdf->setSourceFile($archivo);
         $tppl = $this->pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
         
