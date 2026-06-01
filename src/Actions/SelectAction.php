@@ -228,20 +228,10 @@ class SelectAction
             $result->recordsFiltered = (int)$this->countData;
             $result->data= [];
 
-            if (\Auth::guest())
-            {
-                $puedeEditar   = false;
-                $puedeEliminar = false;
-            }
-            else
-            {
-                $puedeEditar   = ($this->permisoEdit)
-                                    ? ((\is_array($this->permisoEdit)) ? \Auth::user()->canAny($this->permisoEdit) : \Auth::user()->can($this->permisoEdit))
-                                    : 0;
-                $puedeEliminar = ($this->permisoDelete)
-                                    ? ((\is_array($this->permisoDelete)) ? \Auth::user()->canAny($this->permisoDelete) : \Auth::user()->can($this->permisoDelete))
-                                    : 0;
-            }
+            $permissionClass = config('lba.class_edit_permission');
+
+            $puedeEditar    = $permissionClass::editCheck($this->permisoEdit);
+            $puedeEliminar  = $permissionClass::deleteCheck($this->permisoDelete);
 
             foreach ($this->queryData as $datos)
             {

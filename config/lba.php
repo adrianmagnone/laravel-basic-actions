@@ -69,5 +69,20 @@ return [
     'sql_date_formats' => [
         'from' => env('DEFINE.SQL_DATE_FROM', 'd/m/Y'),
         'to'   => env('DEFINE.SQL_DATE_TO', 'Y-m-d')
-    ]
+    ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Permisos de Edicion
+    |--------------------------------------------------------------------------
+    |
+    | Permite definir la clase que se usara para verificar los permisos de edicion y eliminacion.   
+    | Se utiliza dentro de SelectAction para verificar si se deben mostrar los botones de edicion y eliminacion.
+    | Esta clase debe implementar la interfaz \Aiglos\Lba\Permission\IPermission.
+    | Posibles valores: cualquier clase que implemente la interfaz \Aiglos\Lba\Permission\IPermission
+    |
+    */
+        
+    'class_edit_permission' => env('DEFINE_CLASS_EDIT_PERMISSION', Aiglos\Lba\Permission\DeniedEdit::class)
 ];
