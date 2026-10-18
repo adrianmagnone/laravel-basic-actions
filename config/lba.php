@@ -84,5 +84,20 @@ return [
     |
     */
         
-    'class_edit_permission' => env('DEFINE_CLASS_EDIT_PERMISSION', Aiglos\Lba\Permission\DeniedEdit::class)
+    'class_edit_permission' => env('DEFINE_CLASS_EDIT_PERMISSION', Aiglos\Lba\Permission\DeniedEdit::class),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Layouts
+    |--------------------------------------------------------------------------
+    |
+    | Permite definir los layout segun se necesiten en las acciones.
+    | Form: para formularios
+    | NoForm: para vistas de consultas de datos.
+    |
+    */
+
+    'layout.form'   => env('DEFINE_LAYOUT_FORM', 'layouts.form'),
+
+    'layout.noform' => env('DEFINE_LAYOUT_NOFORM', 'layouts.noform'),
 ];

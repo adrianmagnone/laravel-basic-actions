@@ -40,7 +40,7 @@ class DownloadFromFormAction
 
         $data = $this->aditionalDataForLoad();
         
-        $data['layout']    = 'layouts.form';
+        $data['layout']    = config('lba.layout.form');
         $data['saveUrl']   = $this->urlSave;        
         $data['returnUrl'] = $this->urlList;
 

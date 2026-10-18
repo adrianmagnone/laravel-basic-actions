@@ -40,7 +40,7 @@ class EditAction
             abort(403);
 
         $data = $this->aditionalDataForEdit($entidad);
-        $data['layout']    = 'layouts.form';
+        $data['layout']    = config('lba.layout.form');
         $data['action']    = $this->currentAction;
         $data['entity']    = $entidad;
         $data['saveUrl']   = $this->urlSave;        
@@ -65,7 +65,7 @@ class EditAction
         $this->validateMyUpdate($entidad);
 
         $data = $this->aditionalDataForEdit($entidad);
-        $data['layout']    = 'layouts.form';
+        $data['layout']    = config('lba.layout.form');
         $data['action']    = $this->currentAction;
         $data['entity']    = $entidad;
         $data['saveUrl']   = $this->urlSave;        
@@ -90,7 +90,7 @@ class EditAction
         $this->validateMyDelete($entidad);
 
         $data = $this->aditionalDataForEdit($entidad);
-        $data['layout']    = 'layouts.form';
+        $data['layout']    = config('lba.layout.form');
         $data['action']    = $this->currentAction;
         $data['entity']    = $entidad;
         $data['saveUrl']   = $this->urlDelete;        
@@ -110,7 +110,7 @@ class EditAction
             abort(403);
 
         $data = $this->aditionalDataForEdit($entidad);
-        $data['layout']    = 'layouts.noform';
+        $data['layout']    = config('lba.layout.noform');
         $data['action']    = $this->currentAction;
         $data['entity']    = $entidad;
         $data['returnUrl'] = $this->urlList;
