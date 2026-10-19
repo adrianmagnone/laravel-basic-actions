@@ -97,7 +97,9 @@ return [
     |
     */
 
-    'layout.form'   => env('DEFINE_LAYOUT_FORM', 'layouts.form'),
-
-    'layout.noform' => env('DEFINE_LAYOUT_NOFORM', 'layouts.noform'),
+    'layout'   => [
+        'form'   => env('DEFINE_LAYOUT_FORM', 'layouts.form'),
+        'noform' => env('DEFINE_LAYOUT_NOFORM', 'layouts.noform'),
+    ] 
+    
 ];
